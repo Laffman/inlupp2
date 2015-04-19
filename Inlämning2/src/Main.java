@@ -98,7 +98,7 @@ class Main extends JFrame {
 		setLocation(450, 200);
 		setVisible(true);
 		setResizable(false);
-
+		
 	}
 
 	// Menyklasser:
@@ -120,6 +120,7 @@ class Main extends JFrame {
 				remove(mp);
 			}
 			mp = new MapPanel(filnamn);
+			mp.setLayout(null);
 			add(mp, BorderLayout.CENTER);
 			pack(); // sätter storleken till minimum alla objekt kräver
 			validate(); // validera layout
@@ -166,7 +167,11 @@ class Main extends JFrame {
 
 						Place p0 = new DescribedPlace(name, description, x, y); // testobjekt
 						mp.add(p0);
-						// place.put(p0); //lägg in platsen i en hashmap
+						mp.validate();
+						mp.repaint();
+						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
+						mp.removeMouseListener(placePlace); // förhindrar fler än 1 pos
+						
 						return;
 
 					case 1:
@@ -181,15 +186,16 @@ class Main extends JFrame {
 						
 						Place p1 = new NamedPlace(name2, x, y); // testobjekt
 						mp.add(p1);
+						mp.validate();
+						mp.repaint();
+						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
+						mp.removeMouseListener(placePlace); // förhindrar fler än 1 pos
+						
 						return;
 
 					}
 
 			}
-			mp.validate();
-			mp.repaint();
-			mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
-			mp.removeMouseListener(placePlace); // förhindrar fler än 1 pos
 
 		}
 	}

@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 class MapPanel extends JPanel {
@@ -12,6 +13,8 @@ class MapPanel extends JPanel {
 		setPreferredSize(d);
 		setMaximumSize(d);
 		setMinimumSize(d);
+		if (w < 0)
+			throw new IllegalArgumentException("Image could not be opened!");
 	}
 
 	protected void paintComponent(Graphics g) {
