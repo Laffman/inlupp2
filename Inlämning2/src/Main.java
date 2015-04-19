@@ -9,6 +9,7 @@ class Main extends JFrame {
 
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
 	PlacePlace placePlace = new PlacePlace();
+	//WhatHere whatHere = new WhatHere();
 
 	private String[] descriptions = { "DescribedPlace", "NamedPlace" }; // Descriptions
 																		// till
@@ -93,7 +94,7 @@ class Main extends JFrame {
 		// Stuff
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack(); // sätter allt till minium size så alla komponenter får plats
-		setSize(800, 650);
+		//setSize(800, 650); //behövs inte..
 		setLocation(450, 200);
 		setVisible(true);
 		setResizable(false);
@@ -159,12 +160,23 @@ class Main extends JFrame {
 		}
 	}
 	
-	class WhatHere implements ActionListener { // Kollar om det finns något där man klickar 
-		public void actionPerformed(ActionEvent ave) {
-		}
-	}
+//	class WhatLyss implements ActionListener { // Kollar om det finns något där man klickar 
+//		public void actionPerformed(ActionEvent ave) {
+//			mp.addMouseListener(whatHere); // gör så man kan klicka på kartan
+//			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)); // sätt
+//																				// crosshair
+//		}
+//	}
+	
+//	class WhatHere extends MouseAdapter { // Kollar om det finns något där man klickar 
+//		public void actionPerformed(MouseEvent ave) {
+//			int x = ave.getX(); // hämta x koordinat i panelen
+//			int y = ave.getY(); // hämta y koordinat i panelen
+//			
+//		}
+//	}
 
-	// Positionsklasser:
+	// Platsklasser:
 	class PlacePlace extends MouseAdapter { // Ska placera en position på kartan.. fult klassnamn..
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat i panelen
