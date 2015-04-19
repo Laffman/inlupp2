@@ -8,7 +8,7 @@ public abstract class Place extends JComponent {
 							// behöver kommas åt av subklasserna men inget annat
 	private boolean shown = false;
 
-	// protected Category category; //behövs sen när alla kategoriobjekt skapas
+	// protected Category category; //behövs sen när alla platsobjekt skapas
 	// med en kategori vald
 
 	protected Place(String namn, int x, int y) {
@@ -33,4 +33,14 @@ public abstract class Place extends JComponent {
 	public String getNamn() {
 		return namn;
 	}
+	
+	public void setShown(boolean b) {
+		shown = b;
+		repaint();
+	}
+
+	public boolean isShown() {
+		return shown;
+	}
+	
 }

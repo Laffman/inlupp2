@@ -13,11 +13,11 @@ public class Category implements Comparable<Category> {
 		return name;
 	}
 
-	private Color getColor() {
+	public Color getColor() {
 		return color;
 	}
 
-	public int compareTo(Category other) {
+	public int compareTo(Category other) { //för att sortera listan
 		return name.compareTo(other.name);
 	}
 

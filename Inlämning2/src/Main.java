@@ -26,8 +26,7 @@ class Main extends JFrame {
 													// Main för att den ska
 													// synas i andra klasser
 
-	// HashMap<String, Color> places = new HashMap<>(); //hashmap till att spara
-	// platser i?
+	//HashMap<String, Position> places = new HashMap<>(); //hashmap till att spara platser i
 
 	Main() {
 		super("Main");
@@ -136,14 +135,37 @@ class Main extends JFrame {
 		}
 	}
 
-	class SearchText extends MouseAdapter { // Tar bort texten från sökrutan
+	
+	// Searchklasser:
+	class SearchText extends MouseAdapter { // Tar bort texten från sökrutan när man klickar där
 		public void mouseClicked(MouseEvent click) {
 			searchField.setText("");
 		}
 	}
+	
+	class Search implements ActionListener { // Gör alla platser med ett visst namn visible
+		public void actionPerformed(ActionEvent ave) {
+		}
+	}
+	
+	public class HidePlace implements ActionListener { // Döljer alla platser med ett visst namn 
+		public void actionPerformed(ActionEvent ave) {
+			setVisible(false);
+		}
+	}
+	
+	class DeletePlaces implements ActionListener { // Tar bort alla platser med ett visst namn 
+		public void actionPerformed(ActionEvent ave) {
+		}
+	}
+	
+	class WhatHere implements ActionListener { // Kollar om det finns något där man klickar 
+		public void actionPerformed(ActionEvent ave) {
+		}
+	}
 
 	// Positionsklasser:
-	class PlacePlace extends MouseAdapter { // Ska placera en position på kartan
+	class PlacePlace extends MouseAdapter { // Ska placera en position på kartan.. fult klassnamn..
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat i panelen
 			int y = mev.getY(); // hämta y koordinat i panelen
@@ -165,7 +187,7 @@ class Main extends JFrame {
 						String name = form.getName();
 						String description = form.getDescription();
 
-						Place p0 = new DescribedPlace(name, description, x, y); // testobjekt
+						Place p0 = new DescribedPlace(name, description, x, y);
 						mp.add(p0);
 						mp.validate();
 						mp.repaint();
@@ -184,12 +206,12 @@ class Main extends JFrame {
 						String name2 = form2.getName();
 						
 						
-						Place p1 = new NamedPlace(name2, x, y); // testobjekt
+						Place p1 = new NamedPlace(name2, x, y);
 						mp.add(p1);
 						mp.validate();
 						mp.repaint();
-						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
-						mp.removeMouseListener(placePlace); // förhindrar fler än 1 pos
+						mp.setCursor(Cursor.getDefaultCursor());
+						mp.removeMouseListener(placePlace);
 						
 						return;
 

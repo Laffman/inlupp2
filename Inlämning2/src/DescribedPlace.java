@@ -17,4 +17,8 @@ class DescribedPlace extends Place {
 		g.fillPolygon(xes, yes, 3);
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+	
 }
