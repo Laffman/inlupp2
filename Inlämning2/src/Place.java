@@ -4,17 +4,19 @@ import java.awt.*;
 
 public abstract class Place extends JComponent {
 
-	protected String namn; // Variablerna är satta som protected eftersom de
+	protected String name; // Variablerna är satta som protected eftersom de
 							// behöver kommas åt av subklasserna men inget annat
 	private boolean shown = false;
+
+	protected Position pos;
 
 	// protected Category category; //behövs sen när alla platsobjekt skapas
 	// med en kategori vald
 
-	protected Place(String namn, int x, int y) {
-		this.namn = namn;
+	protected Place(String name, Position pos) {
+		this.name = name;
 		// this.category = category; //behövs sen..
-		setBounds(x, y, 50, 50);
+		setBounds(pos.getX(), pos.getY(), 50, 50);
 		Dimension d = new Dimension(50, 50);
 		setPreferredSize(d);
 		setMaximumSize(d);
@@ -30,10 +32,22 @@ public abstract class Place extends JComponent {
 		g.fillPolygon(xes, yes, 3);
 	}
 
-	public String getNamn() {
-		return namn;
+	public String getName() {
+		return name;
 	}
-	
+
+	public void setVisible() {
+		if (!isVisible()) {
+			setVisible(true);
+		}
+	}
+
+	public void setInvisible() {
+		if (isVisible()) {
+			setVisible(false);
+		}
+	}
+
 	public void setShown(boolean b) {
 		shown = b;
 		repaint();
@@ -42,5 +56,5 @@ public abstract class Place extends JComponent {
 	public boolean isShown() {
 		return shown;
 	}
-	
+
 }

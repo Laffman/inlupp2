@@ -27,7 +27,8 @@ class Main extends JFrame {
 													// Main för att den ska
 													// synas i andra klasser
 
-	//HashMap<String, Position> places = new HashMap<>(); //hashmap till att spara platser i
+	HashMap<String, Position> placeMap = new HashMap<>(); //hashmap där platser sparas med sin position för sökning
+	ArrayList<Place> placeList = new ArrayList<>(); //arraylist för platser..
 
 	Main() {
 		super("Main");
@@ -35,7 +36,7 @@ class Main extends JFrame {
 		setLayout(new BorderLayout());
 
 		// Arkiv Menyn
-		JMenuBar mb = new JMenuBar();
+		JMenuBar mb = new JMenuBar(); //skapar menyraden
 		JMenu menu = new JMenu("File");
 		setJMenuBar(mb);
 		mb.add(menu);
@@ -56,16 +57,19 @@ class Main extends JFrame {
 		JLabel neu = new JLabel("New:");
 		north.add(neu);
 		north.add(box);
-		box.addActionListener(new NewPlaceListener());
+		box.addActionListener(new NewPlaceActivator());
 		north.add(searchField);
 		searchField.setText("Search");
 		searchField.addMouseListener(new SearchText());
 		JButton search = new JButton("Search");
 		north.add(search);
+		search.addActionListener(new Search());
 		JButton hide = new JButton("Hide places");
 		north.add(hide);
+		hide.addActionListener(new HidePlace());
 		JButton delete = new JButton("Delete places");
 		north.add(delete);
+		delete.addActionListener(new DeletePlace());
 		JButton what = new JButton("What is here?");
 		north.add(what);
 
@@ -146,41 +150,56 @@ class Main extends JFrame {
 	
 	class Search implements ActionListener { // Gör alla platser med ett visst namn visible
 		public void actionPerformed(ActionEvent ave) {
+			String p = searchField.getText();
+			for (Place pl : placeList)
+				if (pl.getName().equals(p)) {
+					pl.setVisible();
+				}else {
+					JOptionPane.showMessageDialog(Main.this, "The place " + p
+							+ " does not exist!");
+				}
 		}
 	}
 	
-	public class HidePlace implements ActionListener { // Döljer alla platser med ett visst namn 
+	class HidePlace implements ActionListener { // Döljer alla platser med ett visst namn 
 		public void actionPerformed(ActionEvent ave) {
-			setVisible(false);
+			String p = searchField.getText();
+			for (Place pl : placeList)
+				if (pl.getName().equals(p)) {
+					System.out.println(pl.getName());
+					pl.setInvisible();
+				}
 		}
 	}
 	
-	class DeletePlaces implements ActionListener { // Tar bort alla platser med ett visst namn 
+	class DeletePlace implements ActionListener { // Tar bort alla platser med ett visst namn 
+		public void actionPerformed(ActionEvent ave) {
+			String p = searchField.getText();
+			for (Place pl : placeList)
+				if (pl.getName().equals(p)) {
+					System.out.println(pl.getName());
+					placeList.remove(pl);
+				}
+		}
+	}
+	
+	class WhatLyss implements ActionListener { // Kollar om det finns något där man klickar 
 		public void actionPerformed(ActionEvent ave) {
 		}
 	}
 	
-//	class WhatLyss implements ActionListener { // Kollar om det finns något där man klickar 
-//		public void actionPerformed(ActionEvent ave) {
-//			mp.addMouseListener(whatHere); // gör så man kan klicka på kartan
-//			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)); // sätt
-//																				// crosshair
-//		}
-//	}
-	
-//	class WhatHere extends MouseAdapter { // Kollar om det finns något där man klickar 
-//		public void actionPerformed(MouseEvent ave) {
-//			int x = ave.getX(); // hämta x koordinat i panelen
-//			int y = ave.getY(); // hämta y koordinat i panelen
-//			
-//		}
-//	}
+	class WhatHere extends MouseAdapter { // Kollar om det finns något där man klickar 
+		public void actionPerformed(MouseEvent ave) {
+		}
+	}
 
 	// Platsklasser:
-	class NewPlace extends MouseAdapter { // Ska placera en position på kartan..
+	class NewPlace extends MouseAdapter { // Skapar och placerar en plats på kartan..
 		public void mouseClicked(MouseEvent mev) {
-			int x = mev.getX(); // hämta x koordinat i panelen
-			int y = mev.getY(); // hämta y koordinat i panelen
+			int x = mev.getX(); // hämta x koordinat på kartan
+			int y = mev.getY(); // hämta y koordinat på kartan
+			
+			Position pos = new Position(x, y); //skapa ett positionsobjekt
 
 			if (mev.getSource() == mp) { // Använder 'mp' som källa
 				for (;;)
@@ -189,18 +208,20 @@ class Main extends JFrame {
 														// valt
 
 					case 0:
-						DescribedPlaceForm form = new DescribedPlaceForm();
-						int svar = JOptionPane.showConfirmDialog(Main.this,
-								form);
-						if (svar != JOptionPane.OK_OPTION) {
+						DescribedPlaceForm dpForm = new DescribedPlaceForm();
+						int nSvar = JOptionPane.showConfirmDialog(Main.this, 
+								dpForm);
+						if (nSvar != JOptionPane.OK_OPTION) { //ser till så att om man klickar på cancel så avslutas det
 							return;
 						}
 
-						String name = form.getName();
-						String description = form.getDescription();
+						String dpName = dpForm.getName();
+						String description = dpForm.getDescription();
 
-						Place p0 = new DescribedPlace(name, description, x, y);
-						mp.add(p0);
+						Place dp = new DescribedPlace(dpName, description, pos);
+						placeMap.put(dpName,pos); //lägg till platsen i hashmapen places
+						placeList.add(dp); //lägg till platsen i arraylisten placeList
+						mp.add(dp); //lägg till platsen på kartan
 						mp.validate();
 						mp.repaint();
 						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
@@ -209,17 +230,19 @@ class Main extends JFrame {
 						return;
 
 					case 1:
-						NamedPlaceForm form2 = new NamedPlaceForm();
-						int svar2 = JOptionPane.showConfirmDialog(Main.this,
-								form2);
-						if (svar2 != JOptionPane.OK_OPTION) {
+						NamedPlaceForm npForm = new NamedPlaceForm();
+						int npSvar = JOptionPane.showConfirmDialog(Main.this,
+								npForm);
+						if (npSvar != JOptionPane.OK_OPTION) {
 							return;
 						}
-						String name2 = form2.getName();
+						String npName = npForm.getName();
 						
 						
-						Place p1 = new NamedPlace(name2, x, y);
-						mp.add(p1);
+						Place np = new NamedPlace(npName, pos);
+						mp.add(np);
+						placeMap.put(npName,pos);
+						placeList.add(np);
 						mp.validate();
 						mp.repaint();
 						mp.setCursor(Cursor.getDefaultCursor());
@@ -234,11 +257,10 @@ class Main extends JFrame {
 		}
 	}
 
-	class NewPlaceListener implements ActionListener { // Aktiverar PlacePlace
+	class NewPlaceActivator implements ActionListener { // Aktiverar NewPlace
 		public void actionPerformed(ActionEvent nw) {
 			mp.addMouseListener(newPlace); // gör så man kan sätta ut platser
-			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)); // sätt
-																				// crosshair
+			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 
 		}
 	}
@@ -260,8 +282,8 @@ class Main extends JFrame {
 			dataModel.addSorted(cat); // här vi lägga i kategorin i en lista
 										// med objekt!
 
-			JOptionPane.showMessageDialog(Main.this, "Kategorin " + name
-					+ " är tillagd!");
+			JOptionPane.showMessageDialog(Main.this, "The category" + name
+					+ " has been added!");
 			return;
 		}
 	}

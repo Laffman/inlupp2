@@ -3,8 +3,8 @@ import java.awt.Graphics;
 
 class NamedPlace extends Place {
 
-	public NamedPlace(String namn, int x, int y) {
-		super(namn, x, y);
+	public NamedPlace(String name, Position pos) {
+		super(name, pos);
 	}
 
 	protected void paintComponent(Graphics g) {
