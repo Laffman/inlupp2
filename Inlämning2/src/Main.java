@@ -8,7 +8,7 @@ import javax.swing.*;
 class Main extends JFrame {
 
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
-	PlacePlace placePlace = new PlacePlace();
+	NewPlace placePlace = new NewPlace();
 	//WhatHere whatHere = new WhatHere();
 
 	private String[] descriptions = { "DescribedPlace", "NamedPlace" }; // Descriptions
@@ -56,7 +56,7 @@ class Main extends JFrame {
 		JLabel neu = new JLabel("New:");
 		north.add(neu);
 		north.add(box);
-		box.addActionListener(new NewPlace());
+		box.addActionListener(new NewPlaceListener());
 		north.add(searchField);
 		searchField.setText("Search");
 		searchField.addMouseListener(new SearchText());
@@ -177,7 +177,7 @@ class Main extends JFrame {
 //	}
 
 	// Platsklasser:
-	class PlacePlace extends MouseAdapter { // Ska placera en position på kartan.. fult klassnamn..
+	class NewPlace extends MouseAdapter { // Ska placera en position på kartan.. fult klassnamn..
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat i panelen
 			int y = mev.getY(); // hämta y koordinat i panelen
@@ -234,7 +234,7 @@ class Main extends JFrame {
 		}
 	}
 
-	class NewPlace implements ActionListener { // Aktiverar PlacePlace
+	class NewPlaceListener implements ActionListener { // Aktiverar PlacePlace
 		public void actionPerformed(ActionEvent nw) {
 			mp.addMouseListener(placePlace); // gör så man kan sätta ut platser
 			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)); // sätt
