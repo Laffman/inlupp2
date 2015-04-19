@@ -8,7 +8,7 @@ import javax.swing.*;
 class Main extends JFrame {
 
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
-	NewPlace placePlace = new NewPlace();
+	NewPlace newPlace = new NewPlace();
 	//WhatHere whatHere = new WhatHere();
 
 	private String[] descriptions = { "DescribedPlace", "NamedPlace" }; // Descriptions
@@ -177,7 +177,7 @@ class Main extends JFrame {
 //	}
 
 	// Platsklasser:
-	class NewPlace extends MouseAdapter { // Ska placera en position på kartan.. fult klassnamn..
+	class NewPlace extends MouseAdapter { // Ska placera en position på kartan..
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat i panelen
 			int y = mev.getY(); // hämta y koordinat i panelen
@@ -204,7 +204,7 @@ class Main extends JFrame {
 						mp.validate();
 						mp.repaint();
 						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
-						mp.removeMouseListener(placePlace); // förhindrar fler än 1 pos
+						mp.removeMouseListener(newPlace); // förhindrar fler än 1 pos
 						
 						return;
 
@@ -223,7 +223,7 @@ class Main extends JFrame {
 						mp.validate();
 						mp.repaint();
 						mp.setCursor(Cursor.getDefaultCursor());
-						mp.removeMouseListener(placePlace);
+						mp.removeMouseListener(newPlace);
 						
 						return;
 
@@ -236,7 +236,7 @@ class Main extends JFrame {
 
 	class NewPlaceListener implements ActionListener { // Aktiverar PlacePlace
 		public void actionPerformed(ActionEvent nw) {
-			mp.addMouseListener(placePlace); // gör så man kan sätta ut platser
+			mp.addMouseListener(newPlace); // gör så man kan sätta ut platser
 			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR)); // sätt
 																				// crosshair
 
