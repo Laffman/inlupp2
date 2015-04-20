@@ -7,9 +7,11 @@ import javax.swing.*;
 
 class Main extends JFrame {
 
+	Place p1, p2 = null;
+	
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
 	NewPlace newPlace = new NewPlace();
-	//WhatHere whatHere = new WhatHere();
+	// WhatHere whatHere = new WhatHere();
 
 	private String[] descriptions = { "DescribedPlace", "NamedPlace" }; // Descriptions
 																		// till
@@ -27,8 +29,11 @@ class Main extends JFrame {
 													// Main för att den ska
 													// synas i andra klasser
 
-	HashMap<String, Position> placeMap = new HashMap<>(); //hashmap där platser sparas med sin position för sökning
-	ArrayList<Place> placeList = new ArrayList<>(); //arraylist för platser..
+	HashMap<String, Position> placeMap = new HashMap<>(); // hashmap där platser
+															// sparas med sin
+															// position för
+															// sökning
+	ArrayList<Place> placeList = new ArrayList<>(); // arraylist för platser..
 
 	Main() {
 		super("Main");
@@ -36,7 +41,7 @@ class Main extends JFrame {
 		setLayout(new BorderLayout());
 
 		// Arkiv Menyn
-		JMenuBar mb = new JMenuBar(); //skapar menyraden
+		JMenuBar mb = new JMenuBar(); // skapar menyraden
 		JMenu menu = new JMenu("File");
 		setJMenuBar(mb);
 		mb.add(menu);
@@ -82,9 +87,18 @@ class Main extends JFrame {
 		JLabel cats = new JLabel("Categories");
 		east.add(cats);
 		east.add(new JScrollPane(categoryList));
-		categoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		categoryList.setLayoutOrientation(JList.VERTICAL); // listan är vertikal.. kanske inte behövs..
-		categoryList.setFixedCellWidth(150); //gör den här ens nåt nu? nej?
+		categoryList
+				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION); // en
+																					// eller
+																					// flera?
+																					// vad
+																					// vill
+																					// man
+																					// ha?
+		categoryList.setLayoutOrientation(JList.VERTICAL); // listan är
+															// vertikal.. kanske
+															// inte behövs..
+		categoryList.setFixedCellWidth(150); // gör den här ens nåt nu? nej?
 		JButton hideC = new JButton("Hide category");
 		east.add(hideC);
 		JButton newC = new JButton("New category");
@@ -93,16 +107,16 @@ class Main extends JFrame {
 		JButton delC = new JButton("Delete category");
 		east.add(delC);
 		east.add(Box.createVerticalGlue()); // Limmar knapparna till botten av
-		// panelen.. dont want this? tar man bort den blir kategorilistan stooor! 
+		// panelen.. dont want this? tar man bort den blir kategorilistan
+		// stooor!
 
 		// Stuff
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack(); // sätter allt till minium size så alla komponenter får plats
-		//setSize(800, 650); //behövs inte..
 		setLocation(450, 200);
 		setVisible(true);
 		setResizable(false);
-		
+
 	}
 
 	// Menyklasser:
@@ -140,39 +154,41 @@ class Main extends JFrame {
 		}
 	}
 
-	
 	// Searchklasser:
-	class SearchText extends MouseAdapter { // Tar bort texten från sökrutan när man klickar där
+	class SearchText extends MouseAdapter { // Tar bort texten från sökrutan när
+											// man klickar där
 		public void mouseClicked(MouseEvent click) {
 			searchField.setText("");
 		}
 	}
-	
-	class Search implements ActionListener { // Gör alla platser med ett visst namn visible
+
+	class Search implements ActionListener { // Gör alla platser med ett visst
+												// namn visible
 		public void actionPerformed(ActionEvent ave) {
 			String p = searchField.getText();
 			for (Place pl : placeList)
 				if (pl.getName().equals(p)) {
-					pl.setVisible();
-				}else {
+					pl.setVisible(true);
+				} else {
 					JOptionPane.showMessageDialog(Main.this, "The place " + p
 							+ " does not exist!");
 				}
 		}
 	}
-	
-	class HidePlace implements ActionListener { // Döljer alla platser med ett visst namn 
+
+	class HidePlace implements ActionListener { // Döljer alla platser med ett
+												// visst namn
 		public void actionPerformed(ActionEvent ave) {
 			String p = searchField.getText();
 			for (Place pl : placeList)
 				if (pl.getName().equals(p)) {
-					System.out.println(pl.getName());
-					pl.setInvisible();
+					pl.setVisible(false);
 				}
 		}
 	}
-	
-	class DeletePlace implements ActionListener { // Tar bort alla platser med ett visst namn 
+
+	class DeletePlace implements ActionListener { // Tar bort alla platser med
+													// ett visst namn
 		public void actionPerformed(ActionEvent ave) {
 			String p = searchField.getText();
 			for (Place pl : placeList)
@@ -182,25 +198,29 @@ class Main extends JFrame {
 				}
 		}
 	}
-	
-	class WhatLyss implements ActionListener { // Kollar om det finns något där man klickar 
+
+	class WhatLyss implements ActionListener { // Kollar om det finns något där
+												// man klickar
 		public void actionPerformed(ActionEvent ave) {
 		}
 	}
-	
-	class WhatHere extends MouseAdapter { // Kollar om det finns något där man klickar 
+
+	class WhatHere extends MouseAdapter { // Kollar om det finns något där man
+											// klickar
 		public void actionPerformed(MouseEvent ave) {
 		}
 	}
 
 	// Platsklasser:
-	class NewPlace extends MouseAdapter { // Skapar och placerar en plats på kartan..
+	class NewPlace extends MouseAdapter { // Skapar och placerar en plats på
+											// kartan..
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat på kartan
 			int y = mev.getY(); // hämta y koordinat på kartan
-			
-			Position pos = new Position(x, y); //skapa ett positionsobjekt
 
+			Position pos = new Position(x, y); // skapa ett positionsobjekt
+			Category cat = categoryList.getSelectedValue();
+			
 			if (mev.getSource() == mp) { // Använder 'mp' som källa
 				for (;;)
 					switch (box.getSelectedIndex()) { // Kollar vilket
@@ -209,39 +229,56 @@ class Main extends JFrame {
 
 					case 0:
 						DescribedPlaceForm dpForm = new DescribedPlaceForm();
-						int nSvar = JOptionPane.showConfirmDialog(Main.this, 
-								dpForm);
-						if (nSvar != JOptionPane.OK_OPTION) { //ser till så att om man klickar på cancel så avslutas det
+						int an = JOptionPane.showConfirmDialog(Main.this,
+								dpForm, "New described place",
+								JOptionPane.OK_CANCEL_OPTION);
+						if (an != JOptionPane.OK_OPTION) { // ser till så att om
+															// man klickar på
+															// cancel så
+															// avslutas det
+							mp.setCursor(Cursor.getDefaultCursor());
+							mp.removeMouseListener(newPlace);
 							return;
 						}
 
 						String dpName = dpForm.getName();
 						String description = dpForm.getDescription();
-
-						Place dp = new DescribedPlace(dpName, description, pos);
-						placeMap.put(dpName,pos); //lägg till platsen i hashmapen places
-						placeList.add(dp); //lägg till platsen i arraylisten placeList
-						mp.add(dp); //lägg till platsen på kartan
+						
+						Place dp = new DescribedPlace(dpName, description, pos, cat);
+						dp.addMouseListener(new MarkedPlace());
+						placeMap.put(dpName, pos); // lägg till platsen i
+													// hashmapen places
+						placeList.add(dp); // lägg till platsen i arraylisten
+											// placeList
+						mp.add(dp); // lägg till platsen på kartan
 						mp.validate();
 						mp.repaint();
-						mp.setCursor(Cursor.getDefaultCursor()); // sätt default cursor
-						mp.removeMouseListener(newPlace); // förhindrar fler än 1 pos
+						mp.setCursor(Cursor.getDefaultCursor()); // sätt default
+																	// cursor
+						mp.removeMouseListener(newPlace); // förhindrar fler än
+															// 1 pos
 						
 						return;
 
 					case 1:
 						NamedPlaceForm npForm = new NamedPlaceForm();
-						int npSvar = JOptionPane.showConfirmDialog(Main.this,
-								npForm);
-						if (npSvar != JOptionPane.OK_OPTION) {
+						int ans = JOptionPane.showConfirmDialog(Main.this,
+								npForm, "New described place",
+								JOptionPane.OK_CANCEL_OPTION);
+						if (ans != JOptionPane.OK_OPTION) { // ser till så att
+															// om man klickar på
+															// cancel så
+															// avslutas det
+							mp.setCursor(Cursor.getDefaultCursor());
+							mp.removeMouseListener(newPlace);
 							return;
 						}
 						String npName = npForm.getName();
-						
-						
-						Place np = new NamedPlace(npName, pos);
+
+						Place np = new NamedPlace(npName, pos, cat);
+						np.addMouseListener(new MarkedPlace());
 						mp.add(np);
-						placeMap.put(npName,pos);
+						placeMap.put(npName, pos);
 						placeList.add(np);
 						mp.validate();
 						mp.repaint();
@@ -270,8 +307,10 @@ class Main extends JFrame {
 		public void actionPerformed(ActionEvent aev) {
 			CategoryForm form = new CategoryForm();
 
-			int answ = JOptionPane.showConfirmDialog(Main.this, form);
-			if (answ != JOptionPane.OK_OPTION) {
+			int ans = JOptionPane.showConfirmDialog(Main.this,
+					form, "New category",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (ans != JOptionPane.OK_OPTION) {
 				return;
 			}
 
@@ -282,12 +321,25 @@ class Main extends JFrame {
 			dataModel.addSorted(cat); // här vi lägga i kategorin i en lista
 										// med objekt!
 
-			JOptionPane.showMessageDialog(Main.this, "The category" + name
+			JOptionPane.showMessageDialog(Main.this, "The category " + name
 					+ " has been added!");
 			return;
 		}
 	}
 
+	class MarkedPlace extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent mev) {
+			Place p = (Place) mev.getSource();
+				if (!p.isMarked()) {
+					p.setMarked(true);
+				}else if (p.isMarked()) {
+					p.setMarked(false);
+				}
+			
+		}
+	}
+	
 	class MyListModel extends DefaultListModel<Category> { // Sorterar
 															// kategorier man
 															// lagt in

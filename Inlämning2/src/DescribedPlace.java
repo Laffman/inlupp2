@@ -9,11 +9,20 @@ class DescribedPlace extends Place {
 		super(name, pos);
 		this.description = description;
 	}
+
+	public DescribedPlace(String name, String description, Position pos, Category cat) {
+		super(name, pos, cat);
+		this.description = description;
+	}
 	
-	protected void paintComponent(Graphics g) {
-		g.setColor(Color.GREEN);
-		int[] xes = { 0, 25, 50 };
-		int[] yes = { 50, 0, 50 };
+	protected void show(Graphics g) {
+		if (cat == null) {
+			g.setColor(Color.BLACK);
+		}else {
+			g.setColor(cat.getColor());
+		}
+		int[] xes = { 0, 20, 40 };
+		int[] yes = { 0, 40, 0 };
 		g.fillPolygon(xes, yes, 3);
 	}
 	

@@ -7,12 +7,19 @@ class NamedPlace extends Place {
 		super(name, pos);
 	}
 
-	protected void paintComponent(Graphics g) {
-		g.setColor(Color.BLUE);
-		int[] xes = { 0, 25, 50 };
-		int[] yes = { 50, 0, 50 };
-		g.fillPolygon(xes, yes, 3);
+	public NamedPlace(String name, Position pos, Category cat) {
+		super(name, pos, cat);
 	}
 
+	protected void show(Graphics g) {
+		if (cat == null) {
+			g.setColor(Color.BLACK);
+		} else {
+			g.setColor(cat.getColor());
+		}
+		int[] xes = { 0, 20, 40 };
+		int[] yes = { 0, 40, 0 };
+		g.fillPolygon(xes, yes, 3);
+	}
 
 }

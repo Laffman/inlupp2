@@ -17,7 +17,7 @@ class DescribedPlaceForm extends JPanel {
 		JPanel row2 = new JPanel();
 		add(row2);
 		row2.add(new JLabel("Description: "));
-		descriptionField = new JTextArea(15, 15);
+		descriptionField = new JTextArea(12, 12);
 		row2.add(descriptionField);		
 		
 	}
