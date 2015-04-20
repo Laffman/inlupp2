@@ -1,3 +1,5 @@
+import java.awt.*;
+
 import javax.swing.*;
 
 
@@ -17,7 +19,7 @@ class DescribedPlaceForm extends JPanel {
 		JPanel row2 = new JPanel();
 		add(row2);
 		row2.add(new JLabel("Description: "));
-		descriptionField = new JTextArea(12, 12);
+		descriptionField = new JTextArea(10, 15);
 		row2.add(descriptionField);		
 		
 	}

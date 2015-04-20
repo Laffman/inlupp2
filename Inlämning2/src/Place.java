@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.*;
 
@@ -39,17 +40,24 @@ public abstract class Place extends JComponent {
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (marked) {
-			g.setColor(Color.BLUE);
-			g.drawRect(0, 0, 60, 60);
-//			int[] xes = { 0, 20, 40 };
-//			int[] yes = { 0, 40, 0 };
-			//g.fillPolygon(xes, yes, 3);
+		if (marked && this instanceof NamedPlace) {
+			g.setColor(Color.RED);
+			g.drawRect(0, 0, getWidth() -1, getHeight() - 1); //ritar nån form av rektangel.. 
+			g.setFont(new Font("TimesRoman", Font.BOLD, 18)); //font-inställningar
+			g.drawString(name, 15, 20); //skriver namnet i rektangeln.. måste göra så att rektangeln ändrar storlek beroende på namnets längd?
+			//setBorder(new LineBorder(Color.RED)); //sätter en border runt objektet
+		}else if (marked && this instanceof DescribedPlace) {
+			//DescriptionPane dp = new DescriptionPane(pos); //tänkte man kunde göra såhär.. nope!
+			show(g);
 		}else {
 			show(g);
 		}
 	}
 
+	public Position getPos() {
+		return pos;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -62,5 +70,18 @@ public abstract class Place extends JComponent {
 	public boolean isMarked() {
 		return marked;
 	}
-
 }
+
+//Det här funkar inte:
+class DescriptionPane extends JPanel {
+	private JTextArea text = new JTextArea();
+
+	public DescriptionPane(Position p) {
+		setBounds(p.getX(), p.getY(), 50, 50);
+		setLayout(new BorderLayout());
+		add(new JScrollPane(text), BorderLayout.CENTER);
+		text.setBackground(Color.YELLOW);
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+}
+

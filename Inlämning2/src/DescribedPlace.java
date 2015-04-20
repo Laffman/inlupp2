@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 class DescribedPlace extends Place {
 
 	private String description;

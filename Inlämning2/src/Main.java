@@ -6,8 +6,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class Main extends JFrame {
-
-	Place p1, p2 = null;
 	
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
 	NewPlace newPlace = new NewPlace();
@@ -283,8 +281,7 @@ class Main extends JFrame {
 						mp.validate();
 						mp.repaint();
 						mp.setCursor(Cursor.getDefaultCursor());
-						mp.removeMouseListener(newPlace);
-						
+						mp.removeMouseListener(newPlace);				
 						return;
 
 					}
@@ -296,9 +293,11 @@ class Main extends JFrame {
 
 	class NewPlaceActivator implements ActionListener { // Aktiverar NewPlace
 		public void actionPerformed(ActionEvent nw) {
+			if (mp != null) { // om ingen karta laddats så ska det inte gå att skapa en ny plats
+			mp.removeMouseListener(newPlace); // tar bort listener innan man lägger till en ny (förhindrar att man skapar flera objekt samtidigt)
 			mp.addMouseListener(newPlace); // gör så man kan sätta ut platser
 			mp.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-
+			}
 		}
 	}
 
@@ -328,7 +327,7 @@ class Main extends JFrame {
 	}
 
 	class MarkedPlace extends MouseAdapter {
-		@Override
+		//@Override //behövs inte verkar det som..
 		public void mouseClicked(MouseEvent mev) {
 			Place p = (Place) mev.getSource();
 				if (!p.isMarked()) {
