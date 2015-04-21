@@ -43,7 +43,7 @@ public abstract class Place extends JComponent {
 			show(g);
 		}
 	}
-
+	
 	public Position getPosition() {
 		return pos;
 	}

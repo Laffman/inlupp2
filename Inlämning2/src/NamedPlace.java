@@ -20,5 +20,6 @@ class NamedPlace extends Place {
 			setBounds(this.getX(), this.getY(), (name.length() * 8 + 50), name.length() * 4 + 25); //inte optimalt.. inte snyggt.. inte bra..
 			//setBorder(new LineBorder(Color.RED)); //sätter en border runt objektet		
 	}
+
 }
 
