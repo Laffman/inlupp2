@@ -10,16 +10,16 @@ class CategoryForm extends JPanel {
 	CategoryForm() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		JPanel rad1 = new JPanel();
-		add(rad1);
-		rad1.add(new JLabel("Name: "));
+		JPanel row1 = new JPanel();
+		add(row1);
+		row1.add(new JLabel("Name: "));
 		nameField = new JTextField(10);
-		rad1.add(nameField);
+		row1.add(nameField);
 
-		JPanel rad2 = new JPanel();
-		add(rad2);
+		JPanel row2 = new JPanel();
+		add(row2);
 		colorChooser = new JColorChooser();
-		rad2.add(colorChooser);
+		row2.add(colorChooser);
 
 	}
 

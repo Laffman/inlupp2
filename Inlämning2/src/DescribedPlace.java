@@ -19,12 +19,13 @@ class DescribedPlace extends Place {
 	protected void show(Graphics g) {
 		if (cat == null) {
 			g.setColor(Color.BLACK);
-		}else {
+		} else {
 			g.setColor(cat.getColor());
 		}
-		int[] xes = { 0, 20, 40 };
-		int[] yes = { 0, 40, 0 };
+		int[] xes = { 0, 10, 20 };
+		int[] yes = { 0, 20, 0 };
 		g.fillPolygon(xes, yes, 3);
+		setBounds(this.getX(), this.getY(), 20, 20); 
 	}
 	
 	public String getDescription() {
