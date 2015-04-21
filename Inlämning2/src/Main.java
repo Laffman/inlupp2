@@ -80,28 +80,21 @@ class Main extends JFrame {
 		JPanel east = new JPanel();
 		add(east, BorderLayout.EAST);
 		east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS)); // vertikal
-																// layout!
 
 		JLabel cats = new JLabel("Categories");
 		east.add(cats);
 		east.add(new JScrollPane(categoryList));
-		categoryList
-				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION); // en
-																					// eller
-																					// flera?
-																					// vad
-																					// vill
-																					// man
-																					// ha?
-		categoryList.setLayoutOrientation(JList.VERTICAL); // listan är
-															// vertikal.. kanske
-															// inte behövs..
+		categoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION); // en!
+		categoryList.setLayoutOrientation(JList.VERTICAL); // vertikal!
 		categoryList.setFixedCellWidth(150); // gör den här ens nåt nu? nej?
-		JButton hideC = new JButton("Hide category");
-		east.add(hideC);
+		
 		JButton newC = new JButton("New category");
 		east.add(newC);
 		newC.addActionListener(new NewCategory());
+		
+		JButton hideC = new JButton("Hide category");
+		east.add(hideC);
+		
 		JButton delC = new JButton("Delete category");
 		east.add(delC);
 		east.add(Box.createVerticalGlue()); // Limmar knapparna till botten av
@@ -261,7 +254,7 @@ class Main extends JFrame {
 					case 1:
 						NamedPlaceForm npForm = new NamedPlaceForm();
 						int ans = JOptionPane.showConfirmDialog(Main.this,
-								npForm, "New described place",
+								npForm, "New named place",
 								JOptionPane.OK_CANCEL_OPTION);
 						if (ans != JOptionPane.OK_OPTION) { // ser till så att
 															// om man klickar på
@@ -300,6 +293,19 @@ class Main extends JFrame {
 			}
 		}
 	}
+	
+	class MarkedPlace extends MouseAdapter { //Klass för att göra en plats markerad
+		//@Override //behövs inte verkar det som..
+		public void mouseClicked(MouseEvent mev) {
+			Place p = (Place) mev.getSource();
+				if (!p.isMarked()) {
+					p.setMarked(true);
+				}else if (p.isMarked()) {
+					p.setMarked(false);
+				}
+			
+		}
+	}
 
 	// Kategoriklasser:
 	class NewCategory implements ActionListener { // Skapar en ny kategori
@@ -326,28 +332,13 @@ class Main extends JFrame {
 		}
 	}
 
-	class MarkedPlace extends MouseAdapter {
-		//@Override //behövs inte verkar det som..
-		public void mouseClicked(MouseEvent mev) {
-			Place p = (Place) mev.getSource();
-				if (!p.isMarked()) {
-					p.setMarked(true);
-				}else if (p.isMarked()) {
-					p.setMarked(false);
-				}
-			
-		}
-	}
 	
-	class MyListModel extends DefaultListModel<Category> { // Sorterar
-															// kategorier man
-															// lagt in
-
-		public void addSorted(Category ny) {
+	class MyListModel extends DefaultListModel<Category> { // Sorterar kategorier
+		public void addSorted(Category n) {
 			int pos = 0;
-			while (pos < size() && get(pos).compareTo(ny) < 0)
+			while (pos < size() && get(pos).compareTo(n) < 0)
 				pos++;
-			add(pos, ny);
+			add(pos, n);
 		}
 	}
 

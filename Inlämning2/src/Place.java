@@ -5,20 +5,18 @@ import java.awt.*;
 
 public abstract class Place extends JComponent {
 
-	protected String name; // Variablerna är satta som protected eftersom de
-							// behöver kommas åt av subklasserna men inget annat
-	protected boolean marked = false;
-
+	// Variablerna är satta som protected eftersom det behöver kommas åt av subklasser
+	protected String name; 
 	protected Position pos;
 	protected Category cat;
+	protected boolean marked = false;
 
-	// protected Category category; //behövs sen när alla platsobjekt skapas
-	// med en kategori vald
+	
 
 	protected Place(String name, Position pos) {
 		this.name = name;
-		setBounds(pos.getX(), pos.getY(), 50, 50);
-		Dimension d = new Dimension(50, 50);
+		setBounds(pos.getX() -10, pos.getY()-20, 50, 50);
+		Dimension d = new Dimension(40, 40);
 		setPreferredSize(d);
 		setMaximumSize(d);
 		setMinimumSize(d);
@@ -28,8 +26,8 @@ public abstract class Place extends JComponent {
 	protected Place(String name, Position pos, Category cat) {
 		this.name = name;
 		this.cat = cat;
-		setBounds(pos.getX(), pos.getY(), 50, 50);
-		Dimension d = new Dimension(50, 50);
+		setBounds(pos.getX()-10, pos.getY()-20, 50, 50);
+		Dimension d = new Dimension(40, 40);
 		setPreferredSize(d);
 		setMaximumSize(d);
 		setMinimumSize(d);
@@ -44,11 +42,11 @@ public abstract class Place extends JComponent {
 			g.setColor(Color.RED);
 			g.drawRect(0, 0, getWidth() -1, getHeight() - 1); //ritar nån form av rektangel.. 
 			g.setFont(new Font("TimesRoman", Font.BOLD, 18)); //font-inställningar
-			g.drawString(name, 15, 20); //skriver namnet i rektangeln.. måste göra så att rektangeln ändrar storlek beroende på namnets längd?
+			g.drawString(name, 10, 30); //skriver namnet i rektangeln.. måste göra så att rektangeln ändrar storlek beroende på namnets längd?
 			//setBorder(new LineBorder(Color.RED)); //sätter en border runt objektet
 		}else if (marked && this instanceof DescribedPlace) {
-			//DescriptionPane dp = new DescriptionPane(pos); //tänkte man kunde göra såhär.. nope!
-			show(g);
+			DescriptionPane dp = new DescriptionPane(); //tänkte man kunde göra såhär.. nope!
+			//show(g);
 		}else {
 			show(g);
 		}
@@ -76,8 +74,9 @@ public abstract class Place extends JComponent {
 class DescriptionPane extends JPanel {
 	private JTextArea text = new JTextArea();
 
-	public DescriptionPane(Position p) {
-		setBounds(p.getX(), p.getY(), 50, 50);
+	public DescriptionPane() {
+		//setBounds(p.getX(), p.getY(), 50, 50);
+		JPanel pan = new JPanel();
 		setLayout(new BorderLayout());
 		add(new JScrollPane(text), BorderLayout.CENTER);
 		text.setBackground(Color.YELLOW);

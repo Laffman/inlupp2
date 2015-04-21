@@ -17,8 +17,8 @@ class NamedPlace extends Place {
 		} else {
 			g.setColor(cat.getColor());
 		}
-		int[] xes = { 0, 20, 40 };
-		int[] yes = { 0, 40, 0 };
+		int[] xes = { 0, 10, 20 };
+		int[] yes = { 0, 20, 0 };
 		g.fillPolygon(xes, yes, 3);
 	}
 
