@@ -20,7 +20,8 @@ public class Category implements Comparable<Category> {
 	public int compareTo(Category other) { //för att sortera listan
 		return name.compareTo(other.name);
 	}
-
+	
+		
 	public String toString() {
 		return name;
 	}

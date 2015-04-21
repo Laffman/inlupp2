@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 class NamedPlace extends Place {
@@ -12,16 +13,12 @@ class NamedPlace extends Place {
 	}
 
 	protected void show(Graphics g) {
-		if (cat == null) {
-			g.setColor(Color.BLACK);
-		} else {
-			g.setColor(cat.getColor());
-		}
-		int[] xes = { 0, 10, 20 };
-		int[] yes = { 0, 20, 0 };
-		g.fillPolygon(xes, yes, 3);
-		setBounds(this.getX(), this.getY(), 20, 20); 
-		//setBounds(this.getX(), this.getY()-20, 50, 50); //gör så saker flyger! COOLT! :D
+			g.setColor(Color.RED);
+			g.drawRect(0, 0, getWidth() -1, getHeight() -1); //ritar nån form av rektangel.. 
+			g.setFont(new Font("TimesRoman", Font.BOLD, 18)); //font-inställningar
+			g.drawString(name, 10, 30); //skriver namnet i rektangeln.. 
+			setBounds(this.getX(), this.getY(), (name.length() * 8 + 50), name.length() * 4 + 25); //inte optimalt.. inte snyggt.. inte bra..
+			//setBorder(new LineBorder(Color.RED)); //sätter en border runt objektet		
 	}
-
 }
+

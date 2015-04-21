@@ -9,7 +9,8 @@ class Main extends JFrame {
 	
 	MapPanel mp = null; // skapar en variabel för kartan vi kan använda senare
 	NewPlace newPlace = new NewPlace();
-	// WhatHere whatHere = new WhatHere();
+	// WhatHere whatHere = new WhatHere(); //vad skulle jag ha den till..?
+	private Color Black; // skapar en variabel så vi kan lägga in kategorin "none" från början
 
 	private String[] descriptions = { "DescribedPlace", "NamedPlace" }; // Descriptions
 																		// till
@@ -20,6 +21,7 @@ class Main extends JFrame {
 	JList<Category> categoryList = new JList<>(dataModel); // lista att spara
 															// kategorier i
 
+	
 	JFileChooser jfc = new JFileChooser("."); // skapar en filechooser till
 												// "new map"
 
@@ -35,7 +37,10 @@ class Main extends JFrame {
 
 	Main() {
 		super("Main");
-
+		
+		Category none = new Category("None", Black); //stoppa in en kategori från början för att kunna dölja/ta bort saker som inte har nån kategori
+		dataModel.addSorted(none);
+		
 		setLayout(new BorderLayout());
 
 		// Arkiv Menyn
@@ -108,6 +113,8 @@ class Main extends JFrame {
 		setVisible(true);
 		setResizable(false);
 
+		
+		
 	}
 
 	// Menyklasser:
@@ -174,6 +181,7 @@ class Main extends JFrame {
 			for (Place pl : placeList)
 				if (pl.getName().equals(p)) {
 					pl.setVisible(false);
+					
 				}
 		}
 	}
@@ -184,8 +192,12 @@ class Main extends JFrame {
 			String p = searchField.getText();
 			for (Place pl : placeList)
 				if (pl.getName().equals(p)) {
-					System.out.println(pl.getName());
+					JOptionPane.showMessageDialog(Main.this, "The place " + p
+							+ " has been removed");
 					placeList.remove(pl);
+					placeMap.remove(pl);
+					pl.setVisible(false);
+					return;
 				}
 		}
 	}
@@ -203,8 +215,7 @@ class Main extends JFrame {
 	}
 
 	// Platsklasser:
-	class NewPlace extends MouseAdapter { // Skapar och placerar en plats på
-											// kartan..
+	class NewPlace extends MouseAdapter { // Skapar och placerar en plats
 		public void mouseClicked(MouseEvent mev) {
 			int x = mev.getX(); // hämta x koordinat på kartan
 			int y = mev.getY(); // hämta y koordinat på kartan
@@ -343,17 +354,46 @@ class Main extends JFrame {
 
 	class HideCategory implements ActionListener { // Döljer allt av en kategori
 		public void actionPerformed(ActionEvent hc) {
+			Category ct = categoryList.getSelectedValue();
+			// INGET FUNKAR!!! JIPPIE FUCK THIS SHIT!
+			for (Place pl : placeList) {
+				if (pl.getCategory().equals(ct.getName())) {
+					pl.setVisible(false);
+					mp.validate();
+					mp.repaint();
+				} else {
+					JOptionPane.showMessageDialog(Main.this, "There are no places with the category " + ct);
+				}
+			}
+
 		}
 	}
 
-	class DeleteCategory implements ActionListener { // Tar bort allt av en
-														// kategori
+	class DeleteCategory implements ActionListener { // Tar bort allt av kategorin
 		public void actionPerformed(ActionEvent dc) {
+			Category c = categoryList.getSelectedValue();
+			// INGET FUNKAR!!! JIPPIE FUCK THIS SHIT!
+			for (Place pl : placeList) {
+				if (pl.getCategory().equals(c)) {
+					pl.setVisible(false);
+					placeList.remove(pl);
+					placeMap.remove(pl);
+					mp.validate();
+					mp.repaint();
+				} else {
+					JOptionPane.showMessageDialog(Main.this, "There are no places with the category " + c);
+				}
+			}
+
 		}
 	}
 
 	public static void main(String[] args) {
 		new Main();
+	}
+
+	public MapPanel getMap() {
+		return mp;
 	}
 
 }
