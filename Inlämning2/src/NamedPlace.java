@@ -20,6 +20,8 @@ class NamedPlace extends Place {
 		int[] xes = { 0, 10, 20 };
 		int[] yes = { 0, 20, 0 };
 		g.fillPolygon(xes, yes, 3);
+		setBounds(this.getX(), this.getY(), 20, 20); 
+		//setBounds(this.getX(), this.getY()-20, 50, 50); //gör så saker flyger! COOLT! :D
 	}
 
 }

@@ -303,7 +303,6 @@ class Main extends JFrame {
 				}else if (p.isMarked()) {
 					p.setMarked(false);
 				}
-			
 		}
 	}
 

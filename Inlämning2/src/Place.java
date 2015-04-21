@@ -16,10 +16,10 @@ public abstract class Place extends JComponent {
 	protected Place(String name, Position pos) {
 		this.name = name;
 		setBounds(pos.getX() -10, pos.getY()-20, 50, 50);
-		Dimension d = new Dimension(40, 40);
-		setPreferredSize(d);
-		setMaximumSize(d);
-		setMinimumSize(d);
+//		Dimension d = new Dimension(40, 40);
+//		setPreferredSize(d);
+//		setMaximumSize(d);
+//		setMinimumSize(d);
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
@@ -27,10 +27,10 @@ public abstract class Place extends JComponent {
 		this.name = name;
 		this.cat = cat;
 		setBounds(pos.getX()-10, pos.getY()-20, 50, 50);
-		Dimension d = new Dimension(40, 40);
-		setPreferredSize(d);
-		setMaximumSize(d);
-		setMinimumSize(d);
+//		Dimension d = new Dimension(40, 40);
+//		setPreferredSize(d);
+//		setMaximumSize(d);
+//		setMinimumSize(d);
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
@@ -40,13 +40,13 @@ public abstract class Place extends JComponent {
 		super.paintComponent(g);
 		if (marked && this instanceof NamedPlace) {
 			g.setColor(Color.RED);
-			g.drawRect(0, 0, getWidth() -1, getHeight() - 1); //ritar nån form av rektangel.. 
+			g.drawRect(0, 0, getWidth() -1, getHeight() -1); //ritar nån form av rektangel.. 
 			g.setFont(new Font("TimesRoman", Font.BOLD, 18)); //font-inställningar
 			g.drawString(name, 10, 30); //skriver namnet i rektangeln.. måste göra så att rektangeln ändrar storlek beroende på namnets längd?
+			setBounds(this.getX(), this.getY(), (name.length() * 9), 50);
 			//setBorder(new LineBorder(Color.RED)); //sätter en border runt objektet
 		}else if (marked && this instanceof DescribedPlace) {
-			DescriptionPane dp = new DescriptionPane(); //tänkte man kunde göra såhär.. nope!
-			//show(g);
+			//DescriptionPane dp = new DescriptionPane(this); //tänkte man kunde göra såhär.. nope!
 		}else {
 			show(g);
 		}
@@ -70,17 +70,4 @@ public abstract class Place extends JComponent {
 	}
 }
 
-//Det här funkar inte:
-class DescriptionPane extends JPanel {
-	private JTextArea text = new JTextArea();
-
-	public DescriptionPane() {
-		//setBounds(p.getX(), p.getY(), 50, 50);
-		JPanel pan = new JPanel();
-		setLayout(new BorderLayout());
-		add(new JScrollPane(text), BorderLayout.CENTER);
-		text.setBackground(Color.YELLOW);
-		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-	}
-}
 
